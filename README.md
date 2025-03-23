@@ -95,3 +95,56 @@ The test plan could also be part of the repo in the form of skipped tests, e.g.:
 ```typescript
 it.skip('a user should be able to read their own post', () => {});
 ```
+
+# MicroBlog
+
+A simple micro-blogging platform built with TypeScript, React, Express, and PostgreSQL.
+
+## Quick Start with Docker
+
+Run the entire application stack with a single command:
+
+```bash
+docker-compose up
+```
+
+Then visit:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000
+
+## Features
+
+- User authentication (login/logout)
+- View all posts from all users
+- Create new posts (authenticated users only)
+- Delete your own posts (authenticated users only)
+
+## Test Users
+
+The application comes pre-seeded with test users:
+- Email: alice@example.com
+- Email: bob@example.com
+
+## Detailed Instructions
+
+See [INSTRUCTIONS.md](./INSTRUCTIONS.md) for detailed setup and running instructions.
+
+## Project Structure
+
+```
+.
+├── docker-compose.yml           # Docker Compose configuration
+├── microblog-front/             # Frontend application (Next.js)
+│   ├── components/              # React components
+│   ├── context/                 # React context providers
+│   ├── pages/                   # Next.js pages
+│   ├── service/                 # API service
+│   └── ...
+└── microblog-backend/           # Backend application (Express)
+    ├── prisma/                  # Prisma schema and migrations
+    ├── src/                     # Source code
+    │   ├── controllers/         # API controllers
+    │   ├── routes/              # API routes
+    │   └── ...
+    └── ...
+```

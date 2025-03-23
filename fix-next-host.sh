@@ -1,3 +1,10 @@
+#!/bin/bash
+
+echo "Fixing Next.js startup issues with host binding..."
+
+# Fix package.json
+echo "Updating package.json..."
+cat > ./microblog-front/package.json << 'EOF'
 {
   "name": "my-v0-project",
   "version": "0.1.0",
@@ -53,12 +60,12 @@
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
-    "socket.io-client": "^4.8.1",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/node": "^22",
@@ -69,3 +76,42 @@
     "typescript": "^5"
   }
 }
+EOF
+
+# Fix Dockerfile
+echo "Updating Dockerfile..."
+cat > ./microblog-front/Dockerfile << 'EOF'
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Use legacy peer deps to avoid conflicts with date-fns
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+# Explicitly remove app directory to prevent router conflict
+RUN rm -rf ./app
+
+EXPOSE 3000
+
+# Simply use the npm script without additional args
+CMD ["npm", "run", "dev"]
+EOF
+
+echo "Clearing previous containers..."
+docker-compose down
+
+echo "Rebuilding frontend..."
+docker-compose build frontend
+
+echo "Starting containers..."
+docker-compose up -d
+
+echo "Done! The frontend should now bind correctly to 0.0.0.0"
+echo "You can access it at: http://localhost:3000"
+echo ""
+echo "If it's still not working, check the logs with:"
+echo "docker-compose logs -f frontend"
