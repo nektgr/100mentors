@@ -43,13 +43,14 @@ export default function Login() {
     <>
       <Head>
         <title>Login - MicroBlog</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       
-      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+      <div className="w-full max-w-xs sm:max-w-md mx-auto bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Login</h1>
         
         {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded mb-4 text-sm">
+          <div className="bg-red-50 text-red-600 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-xs sm:text-sm">
             {error}
           </div>
         )}
@@ -72,7 +73,7 @@ export default function Login() {
             </p>
           </div>
           
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <Button
               type="submit"
               className="w-full"
