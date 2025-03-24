@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
 
       <div className="w-full sm:max-w-2xl mx-auto">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Posts Feed</h1>
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-mono-900">Posts Feed</h1>
         
         {!isLoading && isAuthenticated && <CreatePostForm />}
         

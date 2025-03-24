@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '../ui/Button';
 import { usePosts, Post } from '../../context/PostsContext';
 import { useAuth } from '../../context/AuthContext';
+import { Button } from '../ui/button';
 
 type PostItemProps = {
   post: Post;
@@ -27,12 +27,12 @@ export const PostItem = ({ post }: PostItemProps) => {
   };
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-md shadow mb-3 sm:mb-4">
+    <div className="bg-mono-50 p-3 sm:p-4 rounded-md shadow mb-3 sm:mb-4">
       <div className="flex flex-col sm:flex-row sm:justify-between">
-        <h3 className="font-medium text-blue-600 text-sm sm:text-base">{post.author.name}</h3>
-        <span className="text-xs text-gray-500 mt-1 sm:mt-0">{formattedDate}</span>
+        <h3 className="font-medium text-mono-900 text-sm sm:text-base">{post.author.name}</h3>
+        <span className="text-xs text-mono-500 mt-1 sm:mt-0">{formattedDate}</span>
       </div>
-      <p className="mt-2 text-sm sm:text-base text-gray-700 whitespace-pre-wrap break-words">{post.content}</p>
+      <p className="mt-2 text-sm sm:text-base text-mono-800 whitespace-pre-wrap break-words">{post.content}</p>
       {isOwnPost && (
         <div className="mt-3 flex justify-end">
           <Button

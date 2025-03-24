@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '../ui/Button';
 import { usePosts } from '../../context/PostsContext';
 import { useAuth } from '../../context/AuthContext';
+import { Button } from '../ui/button';
 
 export const CreatePostForm = () => {
   const [content, setContent] = useState('');
@@ -27,11 +27,11 @@ export const CreatePostForm = () => {
   }
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-md shadow mb-4 sm:mb-6">
-      <h2 className="text-md sm:text-lg font-medium mb-2 sm:mb-4">Create a new post</h2>
+    <div className="bg-mono-50 p-3 sm:p-4 rounded-md shadow mb-4 sm:mb-6">
+      <h2 className="text-md sm:text-lg font-medium mb-2 sm:mb-4 text-mono-900">Create a new post</h2>
       <form onSubmit={handleSubmit}>
         <textarea
-          className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 sm:p-3 border border-mono-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mono-600 bg-mono-50 text-mono-800"
           rows={3}
           placeholder="What's on your mind?"
           value={content}
@@ -39,7 +39,7 @@ export const CreatePostForm = () => {
           maxLength={280}
         />
         <div className="mt-2 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <div className="text-xs sm:text-sm text-gray-500 order-2 sm:order-1">
+          <div className="text-xs sm:text-sm text-mono-500 order-2 sm:order-1">
             {content.length}/280 characters
           </div>
           <Button
