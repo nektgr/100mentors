@@ -17,7 +17,11 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     console.log('Connecting to socket server at:', apiUrl);
     
     // Create socket instance
-    const socketInstance = io(apiUrl);
+    const socketInstance = io(apiUrl, {
+      reconnectionAttempts: 3,
+      reconnectionDelay: 5000,
+      timeout: 10000
+    });
 
     // Socket event handlers
     const onConnect = () => {

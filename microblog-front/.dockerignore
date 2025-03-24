@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+.next
+build
+dist
+*.log
+.DS_Store
+.env*
+coverage
+Dockerfile
+README.md
+.npm
+.cache
