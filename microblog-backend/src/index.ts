@@ -20,10 +20,11 @@ const io = new Server(server, {
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
-  console.log('User connected', socket.id);
+  // User connected - keep this log for server monitoring
+  console.log(`Socket connected: ${socket.id}`);
   
   socket.on('disconnect', () => {
-    console.log('User disconnected', socket.id);
+    // Connection management - useful for production debugging
   });
 });
 
@@ -53,7 +54,8 @@ app.get('/', (req, res) => {
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
+  // Keep this for server error tracking
+  console.error('Server error:', err.message);
   res.status(500).json({
     error: 'Server error',
     message: process.env.NODE_ENV === 'production' ? 'Something went wrong' : err.message
@@ -62,10 +64,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 // Start server
 server.listen(PORT, () => {
+  // Keep startup message for server logs
   console.log(`Server is running on port ${PORT}`);
 });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+// Handle unhandled promise rejections - important for crash prevention
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
 });

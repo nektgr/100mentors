@@ -39,7 +39,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       setPosts(data);
     } catch (err) {
       setError('Failed to fetch posts');
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +57,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       return newPost;
     } catch (err) {
       setError('Failed to create post');
-      console.error(err);
       throw err;
     }
   };
@@ -74,7 +72,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err) {
       setError('Failed to delete post');
-      console.error(err);
       throw err;
     }
   };
@@ -86,7 +83,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
     // Set up a polling mechanism as fallback if sockets are not working
     const interval = setInterval(() => {
       if (!isConnected) {
-        console.log('Socket not connected, refreshing posts via polling');
         refreshPosts();
       }
     }, 30000);  // Every 30 seconds
@@ -100,7 +96,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
 
     // Handle new post created
     const handleNewPost = (newPost: Post) => {
-      console.log('Socket: New post received', newPost);
       setPosts(prevPosts => {
         // Check if post already exists (prevent duplicates)
         const exists = prevPosts.some(p => p.id === newPost.id);
@@ -111,7 +106,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
     
     // Handle post deleted
     const handleDeletePost = (deletedPostId: number) => {
-      console.log('Socket: Post deleted', deletedPostId);
       setPosts(prevPosts => 
         prevPosts.filter(post => post.id !== deletedPostId)
       );

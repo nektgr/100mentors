@@ -44,12 +44,14 @@ async function main() {
     },
   });
   
+  // Useful indicator of successful seeding
   console.log('Database seeded successfully');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    // Important for seed script debugging
+    console.error('Seed error:', e.message);
     process.exit(1);
   })
   .finally(async () => {

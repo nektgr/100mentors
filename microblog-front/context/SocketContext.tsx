@@ -14,7 +14,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    console.log('Connecting to socket server at:', apiUrl);
     
     // Create socket instance
     const socketInstance = io(apiUrl, {
@@ -25,17 +24,16 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     // Socket event handlers
     const onConnect = () => {
-      console.log('Socket connected!');
       setIsConnected(true);
     };
 
     const onDisconnect = () => {
-      console.log('Socket disconnected!');
       setIsConnected(false);
     };
 
-    const onError = (error: Error) => {
-      console.error('Socket error:', error);
+    const onError = (error: any) => {
+      // Handle socket errors silently
+      setIsConnected(false);
     };
 
     // Register event handlers

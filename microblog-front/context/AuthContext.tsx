@@ -1,12 +1,20 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '../service/apiService';
 
+/**
+ * User interface representing authenticated user data
+ * @interface User
+ */
 type User = {
   id: number;
   name: string;
   email: string;
 };
 
+/**
+ * Authentication context interface
+ * @interface AuthContextType
+ */
 type AuthContextType = {
   user: User | null;
   isLoading: boolean;
@@ -17,6 +25,13 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * Authentication provider component
+ * Manages authentication state and provides login/logout functionality
+ * @param {Object} props - Component props
+ * @param {ReactNode} props.children - Child components
+ * @returns {JSX.Element} AuthProvider component
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,14 +46,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const userData = await authAPI.getProfile();
             setUser(userData);
           } catch (error) {
-            // If the error is "User not found", clear the token
-            console.log('Authentication error:', error);
+            // Token invalid or expired
             localStorage.removeItem('token');
           }
         }
       } catch (error) {
-        console.error('Error checking auth status:', error);
-        localStorage.removeItem('token');
+        // Authentication check failed
       } finally {
         setIsLoading(false);
       }
@@ -47,17 +60,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuthStatus();
   }, []);
 
-  const login = async (email: string) => {
+  /**
+   * Authenticates a user with their email
+   * @param {string} email - User's email address
+   * @returns {Promise<void>}
+   * @throws {Error} When authentication fails
+   */
+  const login = async (email: string): Promise<void> => {
     try {
       setIsLoading(true);
-      const response = await authAPI.login(email);
-      localStorage.setItem('token', response.token);
-      setUser(response.user);
+      const data = await authAPI.login(email);
+      localStorage.setItem('token', data.token);
+      setUser(data.user);
+    } catch (error) {
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
+  /**
+   * Logs out the current user
+   */
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
@@ -78,6 +102,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * Hook to access the authentication context
+ * @returns {AuthContextType} Authentication context
+ * @throws {Error} When used outside of AuthProvider
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

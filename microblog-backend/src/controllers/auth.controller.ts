@@ -5,7 +5,12 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-key-for-dev';
 
-// Login user
+/**
+ * Authenticates a user based on email
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body;
   
@@ -14,7 +19,7 @@ export const login = async (req: Request, res: Response) => {
   }
   
   try {
-    // Find or create user
+    // Find user
     let user = await prisma.user.findUnique({ where: { email } });
     
     if (!user) {
@@ -37,12 +42,16 @@ export const login = async (req: Request, res: Response) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
     res.status(500).json({ error: 'Failed to login' });
   }
 };
 
-// Get user profile
+/**
+ * Retrieves the authenticated user's profile
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
@@ -65,7 +74,6 @@ export const getProfile = async (req: Request, res: Response) => {
       email: user.email
     });
   } catch (error) {
-    console.error('Get profile error:', error);
     res.status(500).json({ error: 'Failed to fetch user profile' });
   }
 };
